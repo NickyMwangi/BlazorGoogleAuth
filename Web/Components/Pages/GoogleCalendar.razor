@@ -42,7 +42,6 @@ else
 
 @code {
     private List<Google.Apis.Calendar.v3.Data.Event> events;
-
     protected override async Task OnInitializedAsync()
     {
         events = await googleCalendarService.GetCalendarEventsAsync(CancellationToken.None);

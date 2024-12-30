@@ -55,6 +55,8 @@ public class GoogleCalendarService(IHttpContextAccessor httpContextAccessor, ICo
     {
         // Assuming the user is authenticated and the token is stored in the authentication state
         var user = _httpContextAccessor.HttpContext.User;
+
+        //check user is authenticated
         if (user?.Identity?.IsAuthenticated != true)
         {
             return null;
