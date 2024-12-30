@@ -1,12 +1,21 @@
 # BlazorGoogleAuth
 The project has been developed using C# and Blazor. Blazor is the same with MVC and I am also familiar with MVC and the same would be done using MVC project.
-# How I developed
+## Nuget packages
+I used the following nuget packages;
+* Google.Apis.Auth
+* Google.Apis.Calendar.v3
+* Microsoft.AspNetCore.Authentication.Google
+* Microsoft.AspNetCore.Identity.EntityFrameworkCore
+* Microsoft.AspNetCore.Identity.UI
+* Microsoft.EntityFrameworkCore.Sqlite
+* Microsoft.EntityFrameworkCore.Tools
+## How I developed
 - Created a blazor web app. For MVC i would create an MVC web app.
 - Added Identity scaffold item with SQLite in the project.
 - Configured Google Console credentials and OAuth Consent screen.
 - Added the setting in the appSettings.json
 - Added the AddGoogle dependency in the program.cs and set the required google options that's clientId and ClientSecret and the entity framework inbuilt identity did the rest using external login providers.
-- -- For this to work well, I made some changed in **OnLoginCallbackAsync** in *ExternalLogin.razor* which is under *Components -> account -> manage*. Below is the new code;
+- -- For this to work well, I made some changes in **OnLoginCallbackAsync** in *ExternalLogin.razor* which is under *Components -> account -> manage*. Below is the new code;
 ```
 private async Task OnLoginCallbackAsync()
     {
@@ -66,5 +75,6 @@ This adds _access_token_ to user *AuthenticationProperties* so that one can easi
         return accessToken ?? "";
     }
   ```
-  - Created a folder named Services. __For a big project I would create this as a separate project__. I added GoogleCalendarService here.
-  - Create a component called *GoogleCalendar.razor*. In MVC the would be a cointroller and a View.
+  - Created a folder named Services. __For a big project I would create this as a separate project__. I added GoogleCalendarService here add added it to program.cs.
+  - Create a component called *GoogleCalendar.razor*. In MVC the would be a controller and a View. I am injecting it into the component and using it to call *GetCalendarEventsAsync*
+  *_NB_* _I am using SQLite which is attached in this project._
