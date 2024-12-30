@@ -14,22 +14,23 @@ public class GoogleCalendarService(IHttpContextAccessor httpContextAccessor, ICo
     private readonly ILogger<GoogleCalendarService> _logger = logger;
     private readonly UserManager<WebUser> _userManager = UserManager;
 
+    //Funtion to get calendar events
     public async Task<List<Google.Apis.Calendar.v3.Data.Event>> GetCalendarEventsAsync(CancellationToken cancellationToken)
     {
         try
         {
+            //get token
             var accessToken = await GetAccessTokenAsync();
             if (string.IsNullOrEmpty(accessToken))
             {
                 _logger.LogError("No access token available for user.");
                 return [];
             }
-            var credential = GoogleCredential.FromAccessToken(accessToken);
 
             // Create a new Calendar API service using the access token
             var calendarService = new CalendarService(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = credential,
+                HttpClientInitializer = GoogleCredential.FromAccessToken(accessToken),
                 ApplicationName = _configuration["Authentication:Google:ApplicationName"]
             });
 
@@ -42,6 +43,7 @@ public class GoogleCalendarService(IHttpContextAccessor httpContextAccessor, ICo
 
             var events = await request.ExecuteAsync(cancellationToken);
 
+            
             return events.Items.ToList();
         }
         catch(Exception exp)

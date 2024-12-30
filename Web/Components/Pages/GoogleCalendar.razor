@@ -7,7 +7,7 @@
 
 <h1>Date Retrieved from google calendar</h1>
 
-@if (events ==null)
+@if (events ==null || events.Count == 0)
 {
     <p><em>Loading...</em></p>
 }
@@ -42,6 +42,8 @@ else
 
 @code {
     private List<Google.Apis.Calendar.v3.Data.Event> events;
+
+    //get events on initialize of the component
     protected override async Task OnInitializedAsync()
     {
         events = await googleCalendarService.GetCalendarEventsAsync(CancellationToken.None);
