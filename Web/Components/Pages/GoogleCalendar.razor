@@ -1,0 +1,50 @@
+﻿@page "/"
+@page "/calendar"
+@using Web.Services
+@inject GoogleCalendarService googleCalendarService
+
+<PageTitle>Google calendar</PageTitle>
+
+<h1>Date Retrieved from google calendar</h1>
+
+@if (events ==null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dt in events)
+            {
+                <tr>
+                    <td>@dt.Summary</td>
+                    <td>@dt.Description</td>
+                    <td>@dt.Location</td>
+                    <td>@dt.Start.DateTimeDateTimeOffset</td>
+                    <td>@dt.End.DateTimeDateTimeOffset</td>
+                    <td>@dt.Status</td>
+                </tr>    
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Google.Apis.Calendar.v3.Data.Event> events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await googleCalendarService.GetCalendarEventsAsync(CancellationToken.None);
+    }
+}
